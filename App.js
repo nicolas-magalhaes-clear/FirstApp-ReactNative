@@ -1,24 +1,41 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useState, useEffect } from 'react';
-import Pessoa from './src/Pessoa';
+import { Picker } from '@react-native-picker/picker';
 
 
 export default function App() {
 
-  const [feed, setFeed] = useState([
-    { id: 1, nome: 'Beltrano', idade: 22, email: 'beltrano@teste.com' },
-    { id: 2, nome: 'Fulano', idade: 22, email: 'fulano@teste.com' },
-    { id: 3, nome: 'Ciclano', idade: 22, email: 'ciclano@teste.com' }
-  ])
+  const pizzas = [
+    {
+      sabor: 'Calabresa',
+      valor: 49.90
+    },
+    {
+      sabor: 'Frango com catupiry',
+      valor: 39.90
+    },
+    {
+      sabor: 'Portuguesa',
+      valor: 45.90
+    }
+  ];
+
+  const [selectedPizza, setSelectedPizza] = useState()
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={feed}
-        keyExtractor={(item)=> item.id}
-        renderItem={({ item }) => <Pessoa data={item} />}
-      />
+      <Text style={styles.menu_logo}>Menu Pizza</Text>
+
+
+      <Picker style={styles.picker} selectedValue={selectedPizza} onValueChange={(ItemValue, ItemIndex) => setSelectedPizza(ItemValue)}>
+        {pizzas.map((pizza,index)=> (
+          <Picker.Item key={index}  value={`${pizza.valor}`} label={pizza.sabor}/>
+        ))}
+      </Picker>
+      
+      <Text style={styles.valor}>Valor: R$: {selectedPizza}</Text>
+
 
     </View>
   )
@@ -30,16 +47,25 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#00aeef',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 30
-
   },
-  containerPessoa: {
-    flexDirection: 'row',
-    gap: 10
+  picker: {
+    width: '100%',
+    
+  },
+  menu_logo: {
+    fontSize: 50,
+    fontWeight: '500'
+  },
+  pizza: {
+    fontSize: 30
+  },
+  valor: {
+    fontSize: 20
   }
+
+
 
 });
