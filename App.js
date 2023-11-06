@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
-
+import Pessoa from './src/Pessoa';
 
 
 export default function App() {
@@ -25,16 +25,7 @@ export default function App() {
 }
 
 
-function Pessoa(props) {
-  return (
-    <View style={styles.containerPessoa}>
 
-      <Text>{props.data.nome}</Text>
-      <Text>{props.data.idade}</Text>
-      <Text>{props.data.email}</Text>
-    </View>
-  )
-}
 
 const styles = StyleSheet.create({
   container: {
