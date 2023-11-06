@@ -1,25 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Switch } from 'react-native';
 import { useState } from 'react';
-import Slider from '@react-native-community/slider';
+
 
 
 
 export default function App() {
 
-  const [slideValue, setSlideValue] = useState(0)
 
+  const [status, setStatus] = useState(false)
   
 
   return (
     <View style={styles.container}>
-      <Slider
-        style={{width: 200, height: 40}}
-        minimumValue={0}
-        maximumValue={100}
-        onValueChange={(value) => setSlideValue(parseInt(value))}
-      />
-      <Text>Valor: {slideValue}</Text>
+      <Switch
+        value={status}
+        onValueChange={(valorSwitch) => setStatus(valorSwitch)}
+        />
+      <Text>Valor do switch: {status ? 'true' : 'false'}</Text>
     </View>
   )
 }
