@@ -1,37 +1,56 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const frases = [
-  "Frase1",
-  "Frase2",
-  "Frase3",
-  "Frase4",
-  "Frase5",
-]
+let intervalTimer;
 
 export default function App() {
 
-  const [textoFrase, setTextoFrase] = useState("Frase aleatoria inicial")
-  const [image, setImage] = useState(require('./src/biscoito.png'))
+  const [time, setTime] = useState(0)
+  const [timerActive, setTimerActive] = useState(false)
+  const [buttonTimer, setButtonTimer] = useState('INICIAR')
 
-  function quebraBiscoito(){    
-    let numeroAleatorio = Math.floor(Math.random() * frases.length)
-    setTextoFrase(`"${frases[numeroAleatorio]}"`)
+  
+
+
+  function iniciarTimer() {
+    
+    if(!timerActive){
+      setTimerActive(true)
+      setButtonTimer('PAUSAR')
+      intervalTimer = setInterval(() => {    
+        setTime((prev) => (prev+1))
+      }, 1000);      
+    }
+    else if (timerActive){
+      clearInterval(intervalTimer)
+      setTimerActive(false)
+      setButtonTimer('INICIAR')
+    }
+
+
+  }
+  function limparTimer() {
+    clearInterval(intervalTimer)
+    setTime((prev) => prev*0)
+    setTimerActive(false)
+    setButtonTimer('INICIAR')
   }
 
-  return (
-    <View style={styles.container}>      
-     
-      <Image source={image} style={styles.img}/>
 
-      <Text style={styles.textoFrase}>{textoFrase}</Text>
-      
-      <TouchableOpacity style={styles.botao} onPress={()=> quebraBiscoito()}>
-        <View style={styles.btnArea}>
-          <Text style={styles.btnTexto}>Abrir biscoito</Text>
-        </View>
-      </TouchableOpacity>
+  return (
+    <View style={styles.container}>
+      <Image source={require('./src/cronometro.png')} style={styles.cronometro} />
+      <Text style={styles.timer}>{time}</Text>
+
+      <View style={styles.btnArea}>
+        <TouchableOpacity style={styles.btn} onPress={() => iniciarTimer()} >
+          <Text style={styles.btnTexto}>{buttonTimer} </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btn} onPress={() => limparTimer()}>
+          <Text style={styles.btnTexto}>LIMPAR</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -41,49 +60,33 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: '100%',
-    paddingTop: 30,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: '#00aeef'
   },
-  input: {
-    height: 45,
-    borderWidth: 1,
-    borderColor: '#222',
-    margin: 10,
-    fontSize: 20,
-    padding: 10
-  },
-  texto:{
-    color: 'green'
-  },
-  img: {
+  cronometro: {
     width: 250,
     height: 250
   },
-  textoFrase: {
-    fontSize: 20,
-    color: '#DD7B22',
-    margin: 30,
-    fontStyle: 'italic',
-    textAlign: 'center'
+  timer: {
+    fontSize: 30,
+    marginTop: 20
   },
-  botao: {
-    width: 230,
-    height: 50,
-    borderWidth: 2,
-    borderColor: '#dd7b22',
-    borderRadius: 25
-  },
-  btnArea:{
-    flex: 1,
+  btnArea: {
+    marginTop: 20,
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    gap: 10
   },
   btnTexto: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#dd7b22'
+    fontSize: 20,
+    color: '#00aeef',
+    letterSpacing: 2,
+    fontWeight: '500'
+  },
+  btn: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+    backgroundColor: 'white',
   }
 });
