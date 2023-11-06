@@ -1,37 +1,40 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput } from 'react-native';
+import { useState } from 'react';
 
 export default function App() {
 
   let nome = 'nicolas'
 
+  const [texto, setTexto] = useState("")
+
   return (
-    <View style={styles.container}>
-      <Text>Feito por {nome}</Text>
-      <Text>
-        Sujeito programador filho
-      </Text>
-      
-      <Jobs nome="Ciclano"/>
+    <View style={styles.container}>      
+      <TextInput style={styles.input} value={texto} onChangeText={(e) => setTexto(e)}/>
+
+      {texto.length > 0 ? <Text style={styles.texto}>Bem vindo! {texto}</Text> : null}
     </View>
   );
 }
 
 
-function Jobs(props){
-  return(
-    <View>
-    <Image source={{uri: 'https://sujeitoprogramador.com/steve.png'}} style={{width: 300, height: 300 }}/>
-    <Text>Nome do fulano {props.nome}</Text>
-    </View>
-  )
-}
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     height: '100%',
-    flex: 0,
-    backgroundColor: 'red',
-
+    padding: 30
+    
   },
+  input: {
+    height: 45,
+    borderWidth: 1,
+    borderColor: '#222',
+    margin: 10,
+    fontSize: 20,
+    padding: 10
+  },
+  texto:{
+    color: 'green'
+  }
 });
