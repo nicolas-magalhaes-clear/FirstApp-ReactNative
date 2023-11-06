@@ -1,58 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { useState, useEffect } from 'react';
 
 let intervalTimer;
 
 export default function App() {
 
-  const [time, setTime] = useState(0)
-  const [timerActive, setTimerActive] = useState(false)
-  const [buttonTimer, setButtonTimer] = useState('INICIAR')
-
-  
-
-
-  function iniciarTimer() {
-    
-    if(!timerActive){
-      setTimerActive(true)
-      setButtonTimer('PAUSAR')
-      intervalTimer = setInterval(() => {    
-        setTime((prev) => (prev+1))
-      }, 1000);      
-    }
-    else if (timerActive){
-      clearInterval(intervalTimer)
-      setTimerActive(false)
-      setButtonTimer('INICIAR')
-    }
-
-
-  }
-  function limparTimer() {
-    clearInterval(intervalTimer)
-    setTime((prev) => prev*0)
-    setTimerActive(false)
-    setButtonTimer('INICIAR')
-  }
-
-
   return (
     <View style={styles.container}>
-      <Image source={require('./src/cronometro.png')} style={styles.cronometro} />
-      <Text style={styles.timer}>{time}</Text>
-
-      <View style={styles.btnArea}>
-        <TouchableOpacity style={styles.btn} onPress={() => iniciarTimer()} >
-          <Text style={styles.btnTexto}>{buttonTimer} </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btn} onPress={() => limparTimer()}>
-          <Text style={styles.btnTexto}>LIMPAR</Text>
-        </TouchableOpacity>
-      </View>
+      <ScrollView showsVerticalScrollIndicator={true}>
+        <View style={styles.box1}></View>
+        <View style={styles.box2}></View>
+        <View style={styles.box3}></View>
+        <View style={styles.box4}></View>
+      </ScrollView>
     </View>
-  );
+  )
 }
 
 
@@ -60,33 +23,26 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#00aeef'
   },
-  cronometro: {
-    width: 250,
-    height: 250
+  box1: {
+    backgroundColor: 'red',
+    height: 400,
+    width: '100%'
   },
-  timer: {
-    fontSize: 30,
-    marginTop: 20
+  box2: {
+    backgroundColor: 'green',
+    height: 400,
+    width: '100%'
   },
-  btnArea: {
-    marginTop: 20,
-    flexDirection: 'row',
-    gap: 10
+  box3: {
+    backgroundColor: 'yellow',
+    height: 400,
+    width: '100%'
   },
-  btnTexto: {
-    fontSize: 20,
-    color: '#00aeef',
-    letterSpacing: 2,
-    fontWeight: '500'
-  },
-  btn: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 10,
-    backgroundColor: 'white',
+  box4: {
+    backgroundColor: 'orange',
+    height: 400,
+    width: '100%'
   }
 });
