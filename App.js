@@ -1,48 +1,54 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
 
-let intervalTimer;
+
 
 export default function App() {
 
+  const [feed, setFeed] = useState([
+    { id: 1, nome: 'Beltrano', idade: 22, email: 'beltrano@teste.com' },
+    { id: 2, nome: 'Fulano', idade: 22, email: 'fulano@teste.com' },
+    { id: 3, nome: 'Ciclano', idade: 22, email: 'ciclano@teste.com' }
+  ])
+
   return (
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={true}>
-        <View style={styles.box1}></View>
-        <View style={styles.box2}></View>
-        <View style={styles.box3}></View>
-        <View style={styles.box4}></View>
-      </ScrollView>
+      <FlatList
+        data={feed}
+        keyExtractor={(item)=> item.id}
+        renderItem={({ item }) => <Pessoa data={item} />}
+      />
+
     </View>
   )
 }
 
 
+function Pessoa(props) {
+  return (
+    <View style={styles.containerPessoa}>
+
+      <Text>{props.data.nome}</Text>
+      <Text>{props.data.idade}</Text>
+      <Text>{props.data.email}</Text>
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#00aeef'
+    flexDirection: 'row',
+    backgroundColor: '#00aeef',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 30
+
   },
-  box1: {
-    backgroundColor: 'red',
-    height: 400,
-    width: '100%'
-  },
-  box2: {
-    backgroundColor: 'green',
-    height: 400,
-    width: '100%'
-  },
-  box3: {
-    backgroundColor: 'yellow',
-    height: 400,
-    width: '100%'
-  },
-  box4: {
-    backgroundColor: 'orange',
-    height: 400,
-    width: '100%'
+  containerPessoa: {
+    flexDirection: 'row',
+    gap: 10
   }
+
 });
